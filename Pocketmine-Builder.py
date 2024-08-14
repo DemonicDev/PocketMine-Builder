@@ -69,50 +69,8 @@ else:
     print("No PHP installed and No Directonary called 'bin' found")
     print("to use this code pls install PHP or copy the bin Folder by Pocketmine into this Folder")
     exit("Exit: 'NO PHP FOUND'")
-if(os.path.isdir("PocketMine-MP-stable")):
-    Build("PocketMine-MP-stable")
-elif(os.path.isdir("PocketMine-MP")):
+if(os.path.isdir("PocketMine-MP")):
     Build("PocketMine-MP")
 else:
     prepare()
-exit("end of code")    
-if(os.path.isdir("PocketMine-MP-stable")):
-    virions = glob.glob("virions/*.phar")
-    print(len(virions), "Virions Detected:")
-    if(len(virions) == 0):
-        exit("There are no virions to inject")
-    for i in virions:
-        print("===> ", i)
-    if(os.path.isdir("plugins")):
-        plugins = glob.glob("plugins/*.phar")
-        print(len(plugins), "Plugins Detected:")
-        if (len(plugins) == 0):
-            exit("There are no plugins to be injected")
-        elif(len(plugins) > 1):
-            print("There are more then 1 Plugins in the Plugin Folder")
-            x = input("Should We inject all Virions into Every Plugin? Y/[N]")
-            if(x != "Y"):
-                exit("If u want to inject the virions to only one Plugin, pls remove the other Plugins from the Plugins_folder")
-        for p in plugins:
-            print("")
-            print("===> ", p)
-            ap = p.replace("plugins", "")
-            bp = "output" + ap
-            ccmd = "copy" + " " + p + " " + bp
-            os.system(ccmd)
-            print("")
-            print("")
-            for v in virions:
-                print("===> ","Injecting", v, "into", p)
-                cmd = php + " -dphar.readonly=0 " + v + " " + bp
-                os.system(cmd)
-    else:
-        os.mkdir("plugins")
-        exit("Error: Folder 'plugins' not Found")
-else:
-    os.mkdir("virions")
-    if (os.path.isdir("plugins") == False):
-        os.mkdir("plugins")
-    exit("Error: Folder 'virions' not Found")
-print("")
-print("finnished Injecting")
+exit("Thx for using this Programm <3 \nfeel free to open an issue, for feedback or ideas :D")
