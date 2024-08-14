@@ -48,7 +48,6 @@ def prepare():
     print("1 => PMMP\PocketMine-MP")
     print("2 => NetherGamesMC\PocketMine-MP [MultiProtocol]")
     x = input("=> ")
-    print(x)
     if(x == "1"):
         os.system("git clone https://github.com/pmmp/PocketMine-MP.git")
     elif(x == "2"):
