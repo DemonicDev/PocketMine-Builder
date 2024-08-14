@@ -5,6 +5,7 @@ just drop the Pocketmine-MP folder with source in the folder with this Programm 
 else just drop the Pocketmine-MP (or PocketMine-MP-stable) folder in the same folder this programm is located in
 
 Requires Composer
+When Pocketmine src is downloaded as ZIP file and is different to PocketMine-MP, rename it to PocketMine-MP
 
 (Caution: this tool sets automatically IS_DEVELOPMENT_BUILD to false)
 (with the drop and play you could basically build your own coded pmmp version too :D)
