@@ -47,12 +47,15 @@ def prepare():
     Build(getPmFolder())
     
 def getPmFolder():
-    """
-    x = os.scandir(os.path)
+    x = os.scandir(nat_path)
+    a = []
     for i in x:
-    """
+        if checkIfPmFolder(i):
+            a.append(i)
+    print(a)
     return PmArray()
-
+def checkIfPmFolder(folder):
+    return os.path.isdir(folder + f"\{var}\src\VersionInfo.php")
 def PmArray():
     x = [
         "PocketMine-MP",
