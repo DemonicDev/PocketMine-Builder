@@ -44,17 +44,19 @@ def Build(var):
     ccmd = "copy" + " " + var + "\\PocketMine-MP.phar " + bp
     os.system(ccmd)
 def prepare():
-    print("\nWhich Pocketmine Lib you want to build?")
-    """print("1 => PMMP\PocketMine-MP")
-    print("2 => NetherGamesMC\PocketMine-MP [MultiProtocol]")
-    x = input("=> ")
-    if(x == "1"):
-        os.system("git clone https://github.com/pmmp/PocketMine-MP.git")
-    elif(x == "2"):
-        os.system("git clone https://github.com/NetherGamesMC/PocketMine-MP.git")
-    else:
-        exit("Custom will be added")"""
-    Build("PocketMine-MP")
+    Build(getPmFolder())
+    
+def getPmFolder():
+    return PmArray()
+
+def PmArray():
+    x = [
+        "PocketMine-MP",
+        "PocketMine-MP-stable"
+    ]
+    for i in x:
+        if(os.path.isdir(i)):
+            return i
     
 if(os.path.isdir("output") == False):
     os.mkdir("output")
