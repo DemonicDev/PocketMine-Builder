@@ -47,6 +47,10 @@ def prepare():
     Build(getPmFolder())
     
 def getPmFolder():
+    """
+    x = os.scandir(os.path)
+    for i in x:
+    """
     return PmArray()
 
 def PmArray():
