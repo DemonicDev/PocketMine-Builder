@@ -52,7 +52,7 @@ def getPmFolder():
     print(a)
     return PmArray()
 def checkIfPmFolder(folder):
-    return os.path.isdir(folder + f"\{var}\src\VersionInfo.php")
+    return os.path.existe(folder + f"\{var}\src\VersionInfo.php")
 def PmArray():
     x = [
         "PocketMine-MP",
