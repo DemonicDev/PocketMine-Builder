@@ -42,10 +42,7 @@ def Build(var):
     os.system(composercmd2)
     bp = "output\\PocketMine-MP.phar"
     ccmd = "copy" + " " + var + "\\PocketMine-MP.phar " + bp
-    os.system(ccmd)
-def prepare():
-    Build(getPmFolder())
-    
+    os.system(ccmd)    
 def getPmFolder():
     x = os.scandir(nat_path)
     a = []
@@ -78,8 +75,5 @@ else:
     print("No PHP installed and No Directonary called 'bin' found")
     print("to use this code pls install PHP or copy the bin Folder by Pocketmine into this Folder")
     exit("Exit: 'NO PHP FOUND'")
-if(os.path.isdir("PocketMine-MP")):
-    Build("PocketMine-MP")
-else:
-    prepare()
+Build(getPmFolder())
 exit("Thx for using this Programm <3 \nfeel free to open an issue, for feedback or ideas :D")
