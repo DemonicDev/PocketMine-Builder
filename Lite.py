@@ -44,23 +44,40 @@ def Build(var):
     ccmd = "copy" + " " + var + "\\PocketMine-MP.phar " + bp
     os.system(ccmd)    
 def getPmFolder():
-    x = os.scandir(nat_path)
+    #x = os.scandir(nat_path)
+    #x = os.listdir(nat_path)
+    #x = os.listdir()
     a = []
-    for i in x:
+    files = [f for f in os.listdir() if os.path.isdir(f)]
+    for i in files:
+        print(i)
         if checkIfPmFolder(i):
             a.append(i)
     print(a)
-    return PmArray()
+    ac = len(a)
+    if ac > 0:
+        if ac == 1:
+            return a[0]
+        else:
+            for i in range(0, len(a)):
+                print("[",i,"]", a[i])
+            g = VerInput(a)
+            return a[g]
+    else:
+        exit("no Pocketmine Source Folder found [VersionInfo.php not found]")
+def VerInput(a):
+        j = input("choose which too build:")
+        if(j.isnumeric()):
+            g = int(j)
+        else:
+            print("Int is requiered")
+            return VerInput(a)
+        if (g > len(a)-1) or (g < 0):
+            print("out of range!!!")
+            return VerInput(a)
+        return g
 def checkIfPmFolder(folder):
-    return os.path.existe(f"\{folder}\src\VersionInfo.php")
-def PmArray():
-    x = [
-        "PocketMine-MP",
-        "PocketMine-MP-stable"
-    ]
-    for i in x:
-        if(os.path.isdir(i)):
-            return i
+    return os.path.exists(nat_path + f"\{folder}\src\VersionInfo.php")
     
 if(os.path.isdir("output") == False):
     os.mkdir("output")
