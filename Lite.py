@@ -29,19 +29,20 @@ def update_php_file(file_path):
             file.write(line)
    
 def Build(var):
-    php_file_path = nat_path + fr"\{var}\src\VersionInfo.php"
+    php_file_path = os.path.join(nat_path, var, "src", "VersionInfo.php")
     update_php_file(php_file_path)
     print(f"Updated {php_file_path} to DEVELOPMENT_BUILD = false") 
     #
     result = sp.run("where composer", capture_output=True, text=True, shell=True)
     composer_paths = result.stdout.strip().split('\n')
     composer_path = composer_paths[0]
-    composercmd = fr"{php} {composer_path}.phar install --working-dir={var} --no-dev --classmap-authoritative"
+    composercmd = f"{php} {composer_path}.phar install --working-dir={var} --no-dev --classmap-authoritative"
     os.system(composercmd)
-    composercmd2 = fr"{php} {composer_path}.phar make-server --working-dir={var}"
+    composercmd2 = f"{php} {composer_path}.phar make-server --working-dir={var}"
     os.system(composercmd2)
-    bp = "output\\PocketMine-MP.phar"
-    ccmd = "copy" + " " + var + "\\PocketMine-MP.phar " + bp
+    bp = os.path.join("output", "PocketMine-MP.phar")
+    op = os.path.join(var, "PocketMine-MP.phar")
+    ccmd = "copy" + " " + op + " " + bp
     os.system(ccmd)    
 def getPmFolder():
     #x = os.scandir(nat_path)
@@ -77,14 +78,14 @@ def VerInput(a):
             return VerInput(a)
         return g
 def checkIfPmFolder(folder):
-    return os.path.exists(nat_path + fr"\{folder}\src\VersionInfo.php")
+    return os.path.exists(os.path.join(nat_path, folder, "src", "VersionInfo.php"))
     
 if(os.path.isdir("output") == False):
     os.mkdir("output")
     print("generating Folder called 'output'")    
 if(os.path.isdir("bin")):
     print("We are going to use the bin folder as PHP source")
-    php = r"bin\php\php.exe"
+    php = os.path.join("bin", "php", "php.exe") 
 elif(hasPHP()):
     print("since there is no folder called 'bin', we are using the installed PHP version")
     php = "php"
@@ -94,3 +95,4 @@ else:
     exit("Exit: 'NO PHP FOUND'")
 Build(getPmFolder())
 exit("Thx for using this Programm <3 \nfeel free to open an issue, for feedback or ideas :D")
+
