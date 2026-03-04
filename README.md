@@ -1,4 +1,7 @@
 ## Pocketmine-Builder-Lite (Lite.py)
+# UPDATE: Linux Support Added
+<img width="1125" height="505" alt="grafik" src="https://github.com/user-attachments/assets/0f94482c-2199-4ab3-8d8f-27edaf2fc21a" />
+
 # - New Features: AutoDetecting
 # Using it:
 - you put the Bin (php Library used for Pocketmine) in the folder Lite.py is used
