@@ -1,19 +1,23 @@
 import os
 import glob
 import subprocess as sp
+
 os.system("color b")
 print("Thx for using DemonicEagle143's PocketMine-MP Builder <3 \n")
 print("We kindly recommend to use the bin you are using for your pocketmine server :D, just copy it here\n")
 print("It might be that composer needs a new api key, then you need to restart the cmd after entering the new api key")
 
 nat_path = os.getcwd();
+
+
 def hasPHP():
     try:
         sp.check_call(['php', '-v'])
         return True
     except:
         return False
-    
+
+
 def update_php_file(file_path):
     # Read the file content
     with open(file_path, 'r') as file:
@@ -27,27 +31,45 @@ def update_php_file(file_path):
                 if 'true' in line:
                     line = line.replace('true', 'false')
             file.write(line)
-   
+
+
 def Build(var):
     php_file_path = os.path.join(nat_path, var, "src", "VersionInfo.php")
     update_php_file(php_file_path)
-    print(f"Updated {php_file_path} to DEVELOPMENT_BUILD = false") 
-    #
-    result = sp.run("where composer", capture_output=True, text=True, shell=True)
-    composer_paths = result.stdout.strip().split('\n')
-    composer_path = composer_paths[0]
-    composercmd = f"{php} {composer_path}.phar install --working-dir={var} --no-dev --classmap-authoritative"
-    os.system(composercmd)
-    composercmd2 = f"{php} {composer_path}.phar make-server --working-dir={var}"
-    os.system(composercmd2)
-    bp = os.path.join("output", "PocketMine-MP.phar")
-    op = os.path.join(var, "PocketMine-MP.phar")
-    ccmd = "copy" + " " + op + " " + bp
-    os.system(ccmd)    
+    print(f"Updated {php_file_path} to DEVELOPMENT_BUILD = false")
+    # Windows
+    if os.name == "nt":
+        result = sp.run("where composer", capture_output=True, text=True, shell=True)
+        composer_paths = result.stdout.strip().split('\n')
+        composer_path = composer_paths[0]
+        composercmd = f"{php} {composer_path}.phar install --working-dir={var} --no-dev --classmap-authoritative"
+        os.system(composercmd)
+        composercmd2 = f"{php} {composer_path}.phar make-server --working-dir={var}"
+        os.system(composercmd2)
+        bp = os.path.join("output", "PocketMine-MP.phar")
+        op = os.path.join(var, "PocketMine-MP.phar")
+        ccmd = "copy" + " " + op + " " + bp
+        os.system(ccmd)
+    # Linux tested on Arch
+    else:
+        result = sp.run("which composer", capture_output=True, text=True, shell=True)
+        composer_paths = result.stdout.strip().split('\n')
+        composer_path = composer_paths[0]
+        if composer_path == "":
+            print("No composer found")
+            exit()
+        # Assuming $php points to the PHP executable
+        composercmd = f"{php} {composer_path} install --working-dir={var} --no-dev --classmap-authoritative"
+        sp.run(composercmd, shell=True)
+        composercmd2 = f"{php} {composer_path} make-server --working-dir={var}"
+        sp.run(composercmd2, shell=True)
+        bp = os.path.join("output", "PocketMine-MP.phar")
+        op = os.path.join(var, "PocketMine-MP.phar")
+        ccmd = f"cp {op} {bp}"  # Use cp for Linux
+        sp.run(ccmd, shell=True)
+
+
 def getPmFolder():
-    #x = os.scandir(nat_path)
-    #x = os.listdir(nat_path)
-    #x = os.listdir()
     a = []
     files = [f for f in os.listdir() if os.path.isdir(f)]
     for i in files:
@@ -61,35 +83,40 @@ def getPmFolder():
             return a[0]
         else:
             for i in range(0, len(a)):
-                print("[",i,"]", a[i])
+                print("[", i, "]", a[i])
             g = VerInput(a)
             return a[g]
     else:
         exit("no Pocketmine Source Folder found [VersionInfo.php not found]")
+
+
 def VerInput(a):
-        j = input("choose which too build:")
-        if(j.isnumeric()):
-            g = int(j)
-        else:
-            print("Int is requiered")
-            return VerInput(a)
-        if (g > len(a)-1) or (g < 0):
-            print("out of range!!!")
-            return VerInput(a)
-        return g
+    j = input("choose which too build:")
+    if (j.isnumeric()):
+        g = int(j)
+    else:
+        print("Int is requiered")
+        return VerInput(a)
+    if (g > len(a) - 1) or (g < 0):
+        print("out of range!!!")
+        return VerInput(a)
+    return g
+
+
 def checkIfPmFolder(folder):
     return os.path.exists(os.path.join(nat_path, folder, "src", "VersionInfo.php"))
-    
-if(os.path.isdir("output") == False):
+
+
+if (os.path.isdir("output") == False):
     os.mkdir("output")
-    print("generating Folder called 'output'")    
-if(os.path.isdir("bin")):
+    print("generating Folder called 'output'")
+if (os.path.isdir("bin")):
     print("We are going to use the bin folder as PHP source")
     if os.name == "nt":
         php = os.path.join("bin", "php", "php.exe")
     else:
         php = os.path.join("bin", "php7", "bin", "php")
-elif(hasPHP()):
+elif (hasPHP()):
     print("since there is no folder called 'bin', we are using the installed PHP version")
     php = "php"
 else:
