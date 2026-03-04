@@ -85,7 +85,10 @@ if(os.path.isdir("output") == False):
     print("generating Folder called 'output'")    
 if(os.path.isdir("bin")):
     print("We are going to use the bin folder as PHP source")
-    php = os.path.join("bin", "php", "php.exe") 
+    if os.name == "nt":
+        php = os.path.join("bin", "php", "php.exe")
+    else:
+        php = os.path.join("bin", "php7", "bin", "php")
 elif(hasPHP()):
     print("since there is no folder called 'bin', we are using the installed PHP version")
     php = "php"
